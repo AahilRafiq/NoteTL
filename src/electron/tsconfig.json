@@ -7,5 +7,6 @@
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "../../out/electron",
+        "types": ["../../types.d.ts"]
     }
 }
