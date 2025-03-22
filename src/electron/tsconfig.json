@@ -6,6 +6,6 @@
         "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
-        "outDir": "../../dist/electron",
+        "outDir": "../../out/electron",
     }
 }
