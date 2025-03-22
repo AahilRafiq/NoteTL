@@ -4,5 +4,5 @@ import path from "node:path"
 app.on("ready", () => {
     const window = new BrowserWindow()
 
-    window.loadFile(path.join(app.getAppPath(),'/dist/ui/index.html'))
+    window.loadFile(path.join(app.getAppPath(),'/out/ui/index.html'))
 })
