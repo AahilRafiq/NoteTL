@@ -7,7 +7,7 @@ const DEFAULT_PATH = '/home/aahil/notetl'
 app.on("ready", () => {
     const window = new BrowserWindow({
         webPreferences: {
-            preload: path.join(app.getAppPath(),'/out/electron/preload.cjs')
+            preload: path.join(app.getAppPath(),isDev()?'.':'..','/out/electron/preload.cjs')
         }
     })
 
@@ -34,9 +34,18 @@ app.on("ready", () => {
             return ApiResponse(false)
         }
     })
-    window.loadFile(path.join(app.getAppPath(),'/out/ui/index.html'))
+
+    if(isDev()) {
+        window.loadURL('http://localhost:5173')
+    } else {
+        window.loadFile(path.join(app.getAppPath(),'/out/ui/index.html'))
+    }
 })
 
 function ApiResponse<T>(success: boolean,data?: T, message?: string ): ApiResponse<T> {
     return {success, data, message}
+}
+
+function isDev() {
+    return process.env.NODE_ENV === 'development'
 }
