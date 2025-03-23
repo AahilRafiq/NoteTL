@@ -11,7 +11,7 @@ app.on("ready", () => {
             preload: path.join(app.getAppPath(),isDev()?'.':'..','/out/electron/preload.cjs')
         }
     })
-
+    
     // Load config
     if(doesConfigExist()) {
         config = JSON.parse(fs.readFileSync(configPath).toString())
@@ -19,6 +19,7 @@ app.on("ready", () => {
         createNewConfig()
         config = {path: null}
     }
+    console.log('Appdata:', configPath)
 
 
     ipcMain.handle('file:list', async (event, currdir: string):Promise<ApiResponse<{name: string, isDirectory: boolean}[]>> => {
@@ -49,15 +50,20 @@ app.on("ready", () => {
         return ApiResponse(true, config.path === null)
     })
 
-    ipcMain.on('config:updatePath', async (event) => {
-        const path = dialog.showOpenDialogSync(window, {
+    ipcMain.handle('config:updatePath', async (event): Promise<ApiResponse<void>> => {
+        const path = await dialog.showOpenDialog(window, {
             properties: ['openDirectory']
         })
+        if(path.canceled) {
+            return ApiResponse(false)
+        }
 
         if(path) {
-            config.path = path[0]
+            config.path = path.filePaths[0]
             fs.writeFileSync(configPath, JSON.stringify(config))
         }
+
+        return ApiResponse(true)
     })
 
     if(isDev()) {

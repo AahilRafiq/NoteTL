@@ -3,7 +3,7 @@ interface Window {
         filelist: (currdir: string) => Promise<ApiResponse<{name: string, isDirectory: boolean}[]>>
         createDir: (currdir: string) => Promise<ApiResponse<void>>,
         isFirstTime: () => Promise<ApiResponse<boolean>>,
-        updatePath: () => void
+        updatePath: () => Promise<ApiResponse<void>>
     }
 }
 

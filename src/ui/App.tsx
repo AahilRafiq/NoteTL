@@ -1,50 +1,28 @@
-import { Button } from "./components/ui/button"
 import { useState, useEffect } from "react"
+import WelcomePage from "@/pages/Welcome"
+import Main from "@/pages/Main"
 
 export default function() {
-  const [dirs, setDirs] = useState<string[]>([])
-  const [files, setFiles] = useState<{name: string, isDirectory: boolean}[]>([])
+
+  const [loading, setLoading] = useState(true)
+  const [isFirstTime, setIsFirstTime] = useState(true)
 
   useEffect(() => {
-    const relativePath = dirs.join('/')
-    window.api.filelist(relativePath).then((res) => {
-      if (res.success) {
-        setFiles(res.data)
-      }
-    })
-  }, [dirs])
+    checkFirstTime()
+  },[])
 
-  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const name = e.currentTarget.textContent
-    const file = files.find((file) => file.name === name)
-    if(!file.isDirectory) {
-      alert('Not a directory')
-      return
+  async function checkFirstTime() {
+    const res = await window.api.isFirstTime()
+    if(res.success) {
+      setIsFirstTime(res.data)
     }
-    setDirs([...dirs,file.name])
+    setLoading(false)
   }
 
-  const handleGoBack = () => {
-    setDirs(dirs.slice(0,-1))
+  if(loading) {
+    return <div>Loading...</div>
   }
-
-  const handleChangeFolder = () => {
-    window.api.updatePath()
-    window.location.reload()
-  }
-
   return(
-    <div>
-      <h1>App</h1>
-      <Button onClick={handleGoBack}>Go back</Button>
-      <Button onClick={handleChangeFolder}>Select folder</Button>
-      
-      {/* a list of folders */}
-      <ul>
-        {files.map((dir) => <li>
-          <button key={dir.name} onClick={handleClick}>{dir.name}</button>
-        </li>)}
-      </ul>
-    </div>
+    isFirstTime ? <WelcomePage /> : <Main />
   )
 }
