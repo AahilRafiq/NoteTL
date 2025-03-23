@@ -28,10 +28,16 @@ export default function() {
     setDirs(dirs.slice(0,-1))
   }
 
+  const handleChangeFolder = () => {
+    window.api.updatePath()
+    window.location.reload()
+  }
+
   return(
     <div>
       <h1>App</h1>
       <Button onClick={handleGoBack}>Go back</Button>
+      <Button onClick={handleChangeFolder}>Select folder</Button>
       
       {/* a list of folders */}
       <ul>
