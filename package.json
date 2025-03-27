@@ -14,8 +14,10 @@
     "dist:linux": "npm run ui:build && npm run electron:build && electron-builder --linux --x64"
   },
   "dependencies": {
+    "@libsql/client": "^0.15.1",
     "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/vite": "^4.0.15",
+    "better-sqlite3": "^11.9.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.483.0",
@@ -29,6 +31,7 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/better-sqlite3": "^7.6.12",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",

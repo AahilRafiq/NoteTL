@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import WelcomePage from "@/pages/Welcome"
-import Main from "@/pages/Main"
+// import Main from "@/pages/Main"
 
 export default function() {
 
@@ -12,7 +12,7 @@ export default function() {
   },[])
 
   async function checkFirstTime() {
-    const res = await window.api.isFirstTime()
+    const res = await window.api.isNewUser()
     if(res.success) {
       setIsFirstTime(res.data)
     }
@@ -23,6 +23,6 @@ export default function() {
     return <div>Loading...</div>
   }
   return(
-    isFirstTime ? <WelcomePage /> : <Main />
+    isFirstTime ? <WelcomePage /> : <h1 >Welcome user</h1>
   )
 }
