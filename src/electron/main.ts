@@ -1,9 +1,9 @@
 import {app,BrowserWindow, ipcMain, dialog} from "electron"
 import fs from "node:fs"
 import path from "node:path"
+import { createSchema } from "./db/schema.js"
 
 let configPath = path.join(app.getPath('userData'), 'config.json')
-let config: Config
 
 app.on("ready", () => {
     const window = new BrowserWindow({
@@ -12,58 +12,28 @@ app.on("ready", () => {
         }
     })
     
-    // Load config
-    if(doesConfigExist()) {
-        config = JSON.parse(fs.readFileSync(configPath).toString())
-    } else {
-        createNewConfig()
-        config = {path: null}
-    }
-    console.log('Appdata:', configPath)
-
-
-    ipcMain.handle('file:list', async (event, currdir: string):Promise<ApiResponse<{name: string, isDirectory: boolean}[]>> => {
-        try {
-            const list = await fs.promises.readdir(path.join(config.path!, currdir), { withFileTypes: true });
-            const files = list.map(file => ({
-                name: file.name,
-                isDirectory: file.isDirectory()
-            }));
-            return ApiResponse(true,files)
-        } catch (e) {
-            console.error(e)
-            return ApiResponse(false)
-        }
+    ipcMain.handle('config:isNewUser', async (event):Promise<ApiResponse<boolean>> => {
+        return ApiResponse(true, !doesConfigExist())
     })
 
-    ipcMain.handle('file:createDir', async (event, currdir: string):Promise<ApiResponse<void>> => {
+    ipcMain.handle('config:initNew', async (event):Promise<ApiResponse<void>> => {
         try {
-            await fs.promises.mkdir(path.join(config.path!,currdir))
+            createNewConfig()
+            await createSchema()
+            console.log('New db initialized')
             return ApiResponse(true)
-        } catch (e) {
+        } catch(e) {
             console.error(e)
             return ApiResponse(false)
         }
     })
 
-    ipcMain.handle('config:isFirstTime', async (event):Promise<ApiResponse<boolean>> => {
-        return ApiResponse(true, config.path === null)
+    ipcMain.handle('file:list', async (event, currdir: string) => {
+        // TODO: implement
     })
 
-    ipcMain.handle('config:updatePath', async (event): Promise<ApiResponse<void>> => {
-        const path = await dialog.showOpenDialog(window, {
-            properties: ['openDirectory']
-        })
-        if(path.canceled) {
-            return ApiResponse(false)
-        }
-
-        if(path) {
-            config.path = path.filePaths[0]
-            fs.writeFileSync(configPath, JSON.stringify(config))
-        }
-
-        return ApiResponse(true)
+    ipcMain.handle('file:createDir', async (event, currdir: string) => {
+        // TODO: implement
     })
 
     if(isDev()) {
@@ -73,6 +43,9 @@ app.on("ready", () => {
     }
 })
 
+export function getAppPath() {
+    return app.getPath('userData')
+}
 
 // Helper functions
 function ApiResponse<T>(success: boolean,data?: T, message?: string ): ApiResponse<T> {
@@ -84,7 +57,10 @@ function isDev() {
 }
 
 function createNewConfig() {
-    fs.writeFileSync(configPath, JSON.stringify({path: null}))
+    const newConfig: Config = {
+        theme: 'light'
+    }
+    fs.writeFileSync(configPath, JSON.stringify(newConfig))
 }
 
 function doesConfigExist() {
@@ -92,5 +68,5 @@ function doesConfigExist() {
 }
 
 interface Config {
-    path: string | null
+    theme: string
 }
