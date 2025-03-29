@@ -13,6 +13,7 @@ interface Window {
     api: {
         getFolderContents: (parentID: number) => Promise<ApiResponse<FolderContents>>,
         createNewFolder: (name: string, parentID: number) => Promise<ApiResponse<void>>,
+        createNewFile: (name: string, parentID: number) => Promise<ApiResponse<void>>
         isNewUser: () => Promise<ApiResponse<boolean>>,
         initNew: () => Promise<ApiResponse<void>>
     }

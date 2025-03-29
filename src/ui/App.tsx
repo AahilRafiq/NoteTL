@@ -1,28 +1,34 @@
-import { useState, useEffect } from "react"
-import WelcomePage from "@/pages/Welcome"
-import Main from "@/pages/Dashboard"
+import { useEffect, useTransition } from "react";
+import WelcomePage from "@/pages/Welcome";
+import Dashboard from "@/pages/Dashboard";
+import FullScreenLoader from "./components/FullScreenLoader";
+import Editor from "./pages/Editor";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
-export default function () {
-
-  const [loading, setLoading] = useState(true)
-  const [isFirstTime, setIsFirstTime] = useState(true)
+export default function App() {
+  const [isPending, startTransition] = useTransition();
+  const router = useNavigate();
 
   useEffect(() => {
-    checkFirstTime()
-  }, [])
+    startTransition(async () => {
+      const res = await window.api.isNewUser();
+      if (res.success) {
+          router("/dashboard");
+        }
+      }
+    )
+  }, []);
 
-  async function checkFirstTime() {
-    const res = await window.api.isNewUser()
-    if (res.success) {
-      setIsFirstTime(res.data)
-    }
-    setLoading(false)
+  if (isPending) {
+    return <FullScreenLoader/>;
   }
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
   return (
-    isFirstTime ? <WelcomePage /> : <Main />
+    <Routes>
+      <Route path="/" element={<WelcomePage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/editor/:editorID" element={<Editor />} />
+    </Routes>
   )
+
 }

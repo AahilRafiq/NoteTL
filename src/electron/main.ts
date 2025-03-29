@@ -3,6 +3,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { createSchema } from "./db/schema.js"
 import { createNewFolder, getFilesInFolder, getFoldersInFolder } from "./helpers/folders.js"
+import { createNewFile } from "./helpers/files.js"
 
 let configPath = path.join(app.getPath('userData'), 'config.json')
 
@@ -56,6 +57,16 @@ app.on("ready", () => {
     ipcMain.handle('folder:new', async (_, name: string, parentID: number) => {
         try {
             await createNewFolder(name, parentID)
+            return ApiResponse(true)
+        } catch(e) {
+            console.error(e)
+            return ApiResponse(false)
+        }
+    })
+
+    ipcMain.handle('file:new', async (_, name: string, parentID: number) => {
+        try {
+            await createNewFile(name, parentID)
             return ApiResponse(true)
         } catch(e) {
             console.error(e)
