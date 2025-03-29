@@ -12,7 +12,7 @@ export default function App() {
   useEffect(() => {
     startTransition(async () => {
       const res = await window.api.isNewUser();
-      if (res.success) {
+      if (res.success && res.data == false) {
           router("/dashboard");
         }
       }
