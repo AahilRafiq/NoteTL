@@ -2,6 +2,7 @@ import {app,BrowserWindow, ipcMain, dialog} from "electron"
 import fs from "node:fs"
 import path from "node:path"
 import { createSchema } from "./db/schema.js"
+import { createNewFolder, getFilesInFolder, getFoldersInFolder } from "./helpers/folders.js"
 
 let configPath = path.join(app.getPath('userData'), 'config.json')
 
@@ -28,12 +29,28 @@ app.on("ready", () => {
         }
     })
 
-    ipcMain.handle('file:list', async (event, currdir: string) => {
-        // TODO: implement
+    ipcMain.handle('folder:contents', async (event, parentID: number) => {
+        try {
+            const folders = (await getFoldersInFolder(parentID)).rows
+            const files = (await getFilesInFolder(parentID)).rows
+            return ApiResponse(true, {
+                folders: folders,
+                files: files
+            })
+        } catch(e) {
+            console.error(e)
+            return ApiResponse(false)
+        }
     })
 
-    ipcMain.handle('file:createDir', async (event, currdir: string) => {
-        // TODO: implement
+    ipcMain.handle('folder:new', async (event, name: string, parentID: number) => {
+        try {
+            await createNewFolder(name, parentID)
+            return ApiResponse(true)
+        } catch(e) {
+            console.error(e)
+            return ApiResponse(false)
+        }
     })
 
     if(isDev()) {
@@ -52,7 +69,7 @@ function ApiResponse<T>(success: boolean,data?: T, message?: string ): ApiRespon
     return {success, data, message}
 }
 
-function isDev() {
+export function isDev() {
     return process.env.NODE_ENV === 'development'
 }
 

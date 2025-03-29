@@ -1,28 +1,28 @@
 import { useState, useEffect } from "react"
 import WelcomePage from "@/pages/Welcome"
-// import Main from "@/pages/Main"
+import Main from "@/pages/Main"
 
-export default function() {
+export default function () {
 
   const [loading, setLoading] = useState(true)
   const [isFirstTime, setIsFirstTime] = useState(true)
 
   useEffect(() => {
     checkFirstTime()
-  },[])
+  }, [])
 
   async function checkFirstTime() {
     const res = await window.api.isNewUser()
-    if(res.success) {
+    if (res.success) {
       setIsFirstTime(res.data)
     }
     setLoading(false)
   }
 
-  if(loading) {
+  if (loading) {
     return <div>Loading...</div>
   }
-  return(
-    isFirstTime ? <WelcomePage /> : <h1 >Welcome user</h1>
+  return (
+    isFirstTime ? <WelcomePage /> : <Main />
   )
 }

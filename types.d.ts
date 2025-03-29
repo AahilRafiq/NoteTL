@@ -1,7 +1,7 @@
 interface Window {
     api: {
-        filelist: (currdir: string) => Promise<ApiResponse<{name: string, isDirectory: boolean}[]>>
-        createDir: (currdir: string) => Promise<ApiResponse<void>>,
+        getFolderContents: (parentID: number) => Promise<ApiResponse<{folders: {name: string, id: number}[], files: {name: string, id: number}[]}>>,
+        createNewFolder: (name: string, parentID: number) => Promise<ApiResponse<void>>,
         isNewUser: () => Promise<ApiResponse<boolean>>,
         initNew: () => Promise<ApiResponse<void>>
     }

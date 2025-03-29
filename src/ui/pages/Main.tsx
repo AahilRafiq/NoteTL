@@ -1,50 +1,52 @@
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 
-export default function() {
-  const [dirs, setDirs] = useState<string[]>([])
-  const [files, setFiles] = useState<{name: string, isDirectory: boolean}[]>([])
+interface Contents {
+  files: { name: string, id: number }[],
+  folders: { name: string, id: number }[]
+}
+
+export default function () {
+  const [contents, setContents] = useState<Contents>(null)
+  const [currFolderID, setCurrFolderID] = useState<number>(null)
+
+  async function handleCreateFolder() {
+    const name = 'example' + Math.floor(Math.random() * 1000)
+    if (!name) return
+
+    const response = await window.api.createNewFolder(name, currFolderID)
+    if (!response.success)
+      alert("Error creating folder: " + response.message)
+  }
 
   useEffect(() => {
-    const relativePath = dirs.join('/')
-    window.api.filelist(relativePath).then((res) => {
-      if (res.success) {
-        setFiles(res.data)
+    async function fetchContents() {
+      const response = await window.api.getFolderContents(currFolderID)
+      if (response.success) {
+        setContents(response.data)
+      } else {
+        alert("Error fetching folder contents: " + response.message)
       }
-    })
-  }, [dirs])
-
-  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const name = e.currentTarget.textContent
-    const file = files.find((file) => file.name === name)
-    if(!file.isDirectory) {
-      alert('Not a directory')
-      return
     }
-    setDirs([...dirs,file.name])
-  }
 
-  const handleGoBack = () => {
-    setDirs(dirs.slice(0,-1))
-  }
+    fetchContents()
+  }, [currFolderID])
+  
 
-  const handleChangeFolder = () => {
-    window.api.updatePath()
-    window.location.reload()
-  }
-
-  return(
+  return (
     <div>
       <h1>App</h1>
-      <Button onClick={handleGoBack}>Go back</Button>
-      <Button onClick={handleChangeFolder}>Select folder</Button>
-      
+      <Button onClick={handleCreateFolder}>Create Folder</Button>
+
       {/* a list of folders */}
-      <ul>
-        {files.map((dir) => <li>
-          <button key={dir.name} onClick={handleClick}>{dir.name}</button>
-        </li>)}
-      </ul>
+      <div>
+        <h2>Folders</h2>
+        {contents?.folders.map((folder) => (
+          <div key={folder.id} onClick={() => setCurrFolderID(folder.id)}>
+            {folder.name}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
