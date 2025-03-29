@@ -9,6 +9,11 @@ export default defineConfig({
   build:{
     outDir:'out/ui'
   },
+  server: {
+    watch: {
+      ignored: ['**/database.db/**']
+    }
+  },
   base: './',
   resolve: {
     alias: {

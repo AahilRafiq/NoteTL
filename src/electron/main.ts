@@ -13,11 +13,11 @@ app.on("ready", () => {
         }
     })
     
-    ipcMain.handle('config:isNewUser', async (event):Promise<ApiResponse<boolean>> => {
+    ipcMain.handle('config:isNewUser', async ():Promise<ApiResponse<boolean>> => {
         return ApiResponse(true, !doesConfigExist())
     })
 
-    ipcMain.handle('config:initNew', async (event):Promise<ApiResponse<void>> => {
+    ipcMain.handle('config:initNew', async ():Promise<ApiResponse<void>> => {
         try {
             createNewConfig()
             await createSchema()
@@ -29,13 +29,23 @@ app.on("ready", () => {
         }
     })
 
-    ipcMain.handle('folder:contents', async (event, parentID: number) => {
+    ipcMain.handle('folder:contents', async (_, parentID: number):Promise<ApiResponse<FolderContents>> => {
         try {
             const folders = (await getFoldersInFolder(parentID)).rows
             const files = (await getFilesInFolder(parentID)).rows
             return ApiResponse(true, {
-                folders: folders,
-                files: files
+                folders: folders.map((folder) => {
+                    return {
+                        id: folder.id as number,
+                        name: folder.name as string
+                    }
+                }),
+                files: files.map((file) => {
+                    return {
+                        id: file.id as number,
+                        name: file.name as string
+                    }
+                })
             })
         } catch(e) {
             console.error(e)
@@ -43,7 +53,7 @@ app.on("ready", () => {
         }
     })
 
-    ipcMain.handle('folder:new', async (event, name: string, parentID: number) => {
+    ipcMain.handle('folder:new', async (_, name: string, parentID: number) => {
         try {
             await createNewFolder(name, parentID)
             return ApiResponse(true)

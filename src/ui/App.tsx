@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import WelcomePage from "@/pages/Welcome"
-import Main from "@/pages/Main"
+import Main from "@/pages/Dashboard"
 
 export default function () {
 

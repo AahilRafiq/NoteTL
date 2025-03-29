@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button"
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 
 interface Contents {
   files: { name: string, id: number }[],
@@ -8,16 +7,25 @@ interface Contents {
 
 export default function () {
   const [contents, setContents] = useState<Contents>(null)
+  const [newFolderName, setNewFolderName] = useState<string>("")
   const [currFolderID, setCurrFolderID] = useState<number>(null)
 
-  async function handleCreateFolder() {
-    const name = 'example' + Math.floor(Math.random() * 1000)
-    if (!name) return
+  async function handleCreateFolder(e: React.FormEvent) {
+    e.preventDefault()
+    if (!newFolderName) return
 
-    const response = await window.api.createNewFolder(name, currFolderID)
+    const response = await window.api.createNewFolder(newFolderName, currFolderID)
     if (!response.success)
       alert("Error creating folder: " + response.message)
+
+    const res = await window.api.getFolderContents(currFolderID)
+      if (res.success) {
+        setContents(res.data)
+      } else {
+        alert("Error fetching folder contents: " + res.message)
+      }
   }
+
 
   useEffect(() => {
     async function fetchContents() {
@@ -36,7 +44,8 @@ export default function () {
   return (
     <div>
       <h1>App</h1>
-      <Button onClick={handleCreateFolder}>Create Folder</Button>
+      <input onChange={(e) => setNewFolderName(e.target.value)} type="text"></input>
+      <button onClick={handleCreateFolder}>Create Folder</button>
 
       {/* a list of folders */}
       <div>
