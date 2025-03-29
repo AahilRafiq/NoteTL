@@ -77,7 +77,7 @@ export default function () {
         <h2>Files</h2>
         {contents?.files.map((file) => (
           <div>
-          <Link to={`/editor/${file.id}`} key={file.id} onClick={() => setCurrFolderID(file.id)}>
+          <Link to={`/editor/${file.id}`} key={file.id}>
             {file.name}
           </Link>
           </div>

@@ -3,7 +3,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { createSchema } from "./db/schema.js"
 import { createNewFolder, getFilesInFolder, getFoldersInFolder } from "./helpers/folders.js"
-import { createNewFile } from "./helpers/files.js"
+import { createNewFile, getFileData, saveFile } from "./helpers/files.js"
 
 let configPath = path.join(app.getPath('userData'), 'config.json')
 
@@ -68,6 +68,27 @@ app.on("ready", () => {
         try {
             await createNewFile(name, parentID)
             return ApiResponse(true)
+        } catch(e) {
+            console.error(e)
+            return ApiResponse(false)
+        }
+    })
+
+    ipcMain.handle('file:save', async (_, fileID: number, data: string): Promise<ApiResponse<void>> => {
+        try {
+            await saveFile(fileID, data)
+            return ApiResponse(true)
+        } catch(e) {
+            console.error(e)
+            return ApiResponse(false)
+        }
+    })
+
+    ipcMain.handle('file:getData', async (_, fileID: number): Promise<ApiResponse<string>> => {
+        try {
+            const result = (await getFileData(fileID)).rows[0]
+            const data = result.data as string
+            return ApiResponse(true,data)
         } catch(e) {
             console.error(e)
             return ApiResponse(false)

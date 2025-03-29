@@ -6,3 +6,17 @@ export async function createNewFile(name: string, parentID: number) {
         [name, parentID]
     )
 }
+
+export async function saveFile(fileID: number, data: string) {
+    return db.execute(
+        `UPDATE files SET data = ? WHERE id = ?`,
+        [data, fileID]
+    )
+}
+
+export async function getFileData(fileID: number) {
+    return db.execute(
+        `SELECT data FROM files WHERE id = ?`,
+        [fileID]
+    )
+}
