@@ -7,7 +7,11 @@ const api: Window["api"] = {
     saveFile: (fileID: number, data: string) => ipcRenderer.invoke('file:save',fileID,data),
     getFileData: (fileID: number) => ipcRenderer.invoke('file:getData',fileID),
     isNewUser: () => ipcRenderer.invoke('config:isNewUser'),
-    initNew: () => ipcRenderer.invoke('config:initNew')
+    initNew: () => ipcRenderer.invoke('config:initNew'),
+    deleteFile: (fileID: number) => ipcRenderer.invoke('file:delete', fileID),
+    deleteFolder: (folderID: number) => ipcRenderer.invoke('folder:delete', folderID),
+    renameFile: (fileID: number, newName: string) => ipcRenderer.invoke('file:rename', fileID, newName),
+    renameFolder: (folderID: number, newName: string) => ipcRenderer.invoke('folder:rename', folderID, newName)
 }
 
 contextBridge.exposeInMainWorld('api', api)

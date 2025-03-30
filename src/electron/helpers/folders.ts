@@ -26,3 +26,17 @@ export async function createNewFolder(name: string, parentID: number) {
         [name, parentID]
     )
 }
+
+export async function deleteFolder(folderID: number) {
+    return db.execute(
+        `DELETE FROM folders WHERE id = ?`,
+        [folderID]
+    )
+}
+
+export async function renameFolder(folderID: number, newName: string) {
+    return db.execute(
+        `UPDATE folders SET name = ? WHERE id = ?`,
+        [newName, folderID]
+    )
+}

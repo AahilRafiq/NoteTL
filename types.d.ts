@@ -17,7 +17,11 @@ interface Window {
         saveFile: (fileID: number, data: string) => Promise<ApiResponse<void>>,
         getFileData: (fileID: number) => Promise<ApiResponse<string>>,
         isNewUser: () => Promise<ApiResponse<boolean>>,
-        initNew: () => Promise<ApiResponse<void>>
+        initNew: () => Promise<ApiResponse<void>>,
+        deleteFile: (fileID: number) => Promise<ApiResponse<void>>,
+        deleteFolder: (folderID: number) => Promise<ApiResponse<void>>,
+        renameFile: (fileID: number, newName: string) => Promise<ApiResponse<void>>,
+        renameFolder: (folderID: number, newName: string) => Promise<ApiResponse<void>>
     }
 }
 

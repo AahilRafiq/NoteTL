@@ -94,13 +94,13 @@ export default function () {
 
           {contents?.folders.map(folder => (
             <div key={folder.id} className="flex-none">
-                <Folder folderName={folder.name} folderID={folder.id}/>
+                <Folder folderName={folder.name} folderID={folder.id} refreshContents={refreshContents} />
             </div>
           ))}
 
           {contents?.files.map(file => (
             <div key={file.id} className="flex-none">
-              <File fileName={file.name} fileID={file.id} />
+              <File fileName={file.name} fileID={file.id} refreshContents={refreshContents} />
             </div>
           ))}
 

@@ -20,3 +20,17 @@ export async function getFileData(fileID: number) {
         [fileID]
     )
 }
+
+export async function deleteFile(fileID: number) {
+    return db.execute(
+        `DELETE FROM files WHERE id = ?`,
+        [fileID]
+    )
+}
+
+export async function renameFile(fileID: number, newName: string) {
+    return db.execute(
+        `UPDATE files SET name = ? WHERE id = ?`,
+        [newName, fileID]
+    )
+}
