@@ -8,6 +8,7 @@ import 'tldraw/tldraw.css'
 import { Button } from "@/components/ui/button"
 import { useFolderNavStore } from "@/zustand/folderNavStore"
 import { useNavigate } from "react-router-dom"
+import { FileTextIcon, FolderIcon, FilePlusIcon } from "lucide-react"
 
 export default function() {
 
@@ -50,6 +51,23 @@ export default function() {
         navigate("/dashboard")
     }
 
+    function addLucideComponent(component) {
+        if (!editor) return
+
+        const id = editor.createShapeId()
+        editor.createShapes([
+            {
+                id,
+                type: 'geo',
+                props: {
+                    w: 100,
+                    h: 100,
+                    geo: component,
+                },
+            },
+        ])
+    }
+
     return (
         <div className="flex flex-col items-center justify-center h-screen">
             {isPending && <FullScreenLoader/>}
@@ -58,6 +76,9 @@ export default function() {
                 <div className="flex flex-row gap-2">
                     <Button onClick={handleSave} >Save</Button>
                     <Button onClick={handleClickBack} variant="secondary">Back</Button>
+                    <Button onClick={() => addLucideComponent(FileTextIcon)} variant="secondary">Add File Icon</Button>
+                    <Button onClick={() => addLucideComponent(FolderIcon)} variant="secondary">Add Folder Icon</Button>
+                    <Button onClick={() => addLucideComponent(FilePlusIcon)} variant="secondary">Add File Plus Icon</Button>
                 </div>
             </div>
             <Tldraw onMount={handleMount} className="prose dark:prose-invert min-w-full">
