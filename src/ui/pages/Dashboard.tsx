@@ -7,6 +7,15 @@ import { Button } from "@/components/ui/button"
 import { HomeIcon } from "lucide-react"
 import { useTransition } from "react"
 import FullScreenLoader from "@/components/FullScreenLoader"
+import { useFolderNavStore } from "@/zustand/folderNavStore"
+import BreadCrumbButton from "@/components/breadcrumbs/BreadCrumbButton"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+
 
 interface Contents {
   files: { name: string, id: number }[],
@@ -15,7 +24,10 @@ interface Contents {
 
 export default function () {
   const [contents, setContents] = useState<Contents>(null)
-  const [currFolderID, setCurrFolderID] = useState<number>(null)
+  const currFolderID = useFolderNavStore(state => state.currFolderID)
+  const setCurrFolderID = useFolderNavStore(state => state.setCurrFolderID)
+  const setDefault = useFolderNavStore(state => state.setDefault)
+  const folders = useFolderNavStore(state => state.folders)
   const [isPending, startTransition] = useTransition()
 
 
@@ -45,51 +57,55 @@ export default function () {
     return <FullScreenLoader />
   }
   return (
-    <div className="flex flex-col h-screen p-5">
-            
-            <header className="p-4 flex items-center justify-between">
-                <div className="flex items-center gap-4 dark">
-
-                    {/* Menu Buttons */}
-                    <Button onClick={()=>window.location.reload()} variant="ghost" size="default">
-                            <HomeIcon className="w-12 h-12" />
-                      </Button>
-                    <NewFolderModal refreshContents={refreshContents} parentFolderID={currFolderID}/>
-                    <NewFileModal refreshContents={refreshContents} parentFolderID={currFolderID}/>
-
-                </div>
-                <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon">
-                        <span className="sr-only">Filter</span>
-                    </Button>
-                </div>
-            </header>
-
-            {/* Files/Folders */}
-
-            <div className="flex-1 overflow-auto p-4">
-                <div className="flex flex-wrap gap-4">
-                    
-                    {contents?.folders.map(folder => (
-                        <div key={folder.id} className="flex-none">
-                            <Button 
-                                onClick={() => setCurrFolderID(folder.id)} 
-                                variant="ghost" 
-                                className="p-0 h-auto w-auto"
-                            >
-                                <Folder folderName={folder.name} />
-                            </Button>
-                        </div>
-                    ))}
-
-                    {contents?.files.map(file => (
-                        <div key={file.id} className="flex-none">
-                            <File fileName={file.name} fileID={file.id} />
-                        </div>
-                    ))}
-                    
-                </div>
-            </div>
+    <div className="flex flex-col h-screen">
+      <header className="p-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Breadcrumb>
+            <BreadcrumbList>
+              {folders.map(folder => {
+                return (
+                  <>
+                    <BreadcrumbItem>
+                      <BreadCrumbButton key={folder.id} name={folder.name} id={folder.id} />
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                  </>
+                )
+              })}
+            </BreadcrumbList>
+          </Breadcrumb>
         </div>
+        <div className="flex items-center gap-4 dark">
+
+          {/* Menu Buttons */}
+          <Button onClick={setDefault} variant="ghost" size="default">
+            <HomeIcon className="w-12 h-12" />
+          </Button>
+          <NewFolderModal refreshContents={refreshContents} parentFolderID={currFolderID} />
+          <NewFileModal refreshContents={refreshContents} parentFolderID={currFolderID} />
+
+        </div>
+      </header>
+
+      {/* Files/Folders */}
+
+      <div className="flex-1 overflow-auto p-4">
+        <div className="flex flex-wrap gap-4">
+
+          {contents?.folders.map(folder => (
+            <div key={folder.id} className="flex-none">
+                <Folder folderName={folder.name} folderID={folder.id}/>
+            </div>
+          ))}
+
+          {contents?.files.map(file => (
+            <div key={file.id} className="flex-none">
+              <File fileName={file.name} fileID={file.id} />
+            </div>
+          ))}
+
+        </div>
+      </div>
+    </div>
   )
 }

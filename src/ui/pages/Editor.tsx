@@ -6,12 +6,16 @@ import { useTransition } from "react"
 import FullScreenLoader from "@/components/FullScreenLoader"
 import 'tldraw/tldraw.css'
 import { Button } from "@/components/ui/button"
+import { useFolderNavStore } from "@/zustand/folderNavStore"
+import { useNavigate } from "react-router-dom"
 
 export default function() {
 
     const { editorID } = useParams()
     const [editor, setEditor] = useState<Editor>(null)
     const [isPending, startTransition] = useTransition()
+    const setCurrFolderID = useFolderNavStore(state => state.setCurrFolderID)
+    const navigate = useNavigate()
 
     function handleMount(e: Editor) {
         setEditor(e)
@@ -40,6 +44,12 @@ export default function() {
         })
     }
 
+    function handleClickBack() {
+        const lastFolderID = useFolderNavStore.getState().folders[useFolderNavStore.getState().folders.length - 1].id
+        setCurrFolderID(lastFolderID)
+        navigate("/dashboard")
+    }
+
     return (
         <div className="flex flex-col items-center justify-center h-screen">
             {isPending && <FullScreenLoader/>}
@@ -47,10 +57,10 @@ export default function() {
                 <h1>Editing: {editorID}</h1>
                 <div className="flex flex-row gap-2">
                     <Button onClick={handleSave} >Save</Button>
-                    <Button onClick={() => window.location.reload()} variant="secondary">Home</Button>
+                    <Button onClick={handleClickBack} variant="secondary">Back</Button>
                 </div>
             </div>
-            <Tldraw onMount={handleMount} className="prose min-w-full">
+            <Tldraw onMount={handleMount} className="prose dark:prose-invert min-w-full">
             </Tldraw>
         </div>
     )
