@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useTransition } from "react"
 import FullScreenLoader from "@/components/FullScreenLoader"
 import 'tldraw/tldraw.css'
+import { Button } from "@/components/ui/button"
 
 export default function() {
 
@@ -42,8 +43,13 @@ export default function() {
     return (
         <div className="flex flex-col items-center justify-center h-screen">
             {isPending && <FullScreenLoader/>}
-            <h1>Editing: {editorID}</h1>
-            <button onClick={handleSave} >Save</button>
+            <div className="m-2 flex flex-row justify-between items-center w-full">
+                <h1>Editing: {editorID}</h1>
+                <div className="flex flex-row gap-2">
+                    <Button onClick={handleSave} >Save</Button>
+                    <Button onClick={() => window.location.reload()} variant="secondary">Home</Button>
+                </div>
+            </div>
             <Tldraw onMount={handleMount} className="prose min-w-full">
             </Tldraw>
         </div>
