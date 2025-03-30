@@ -1,4 +1,4 @@
-import { FileTextIcon, MoreHorizontalIcon } from "lucide-react";
+import { FileTextIcon, MoreVerticalIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
@@ -61,7 +61,7 @@ export default function ({ fileName, fileID, refreshContents }: { fileName: stri
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <button className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <MoreHorizontalIcon className="w-5 h-5" />
+                            <MoreVerticalIcon className="w-5 h-5" />
                         </button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>

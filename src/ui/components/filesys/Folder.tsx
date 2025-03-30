@@ -1,4 +1,4 @@
-import { FolderIcon, MoreHorizontalIcon } from "lucide-react";
+import { FolderIcon, MoreVerticalIcon } from "lucide-react";
 import { useFolderNavStore } from "@/zustand/folderNavStore";
 import { useState } from "react";
 import {
@@ -69,7 +69,7 @@ export default function ({ folderName, folderID, refreshContents }: { folderName
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <button className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <MoreHorizontalIcon className="w-5 h-5" />
+                            <MoreVerticalIcon className="w-5 h-5" />
                         </button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
