@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { Button, Modal, Input } from "daisyui";
 import FullScreenLoader from "../FullScreenLoader";
 import { FilePlusIcon } from "lucide-react";
 
@@ -33,22 +32,26 @@ export default function ({ parentFolderID , refreshContents}: IProps) {
     }
     return (
         <>
-            <Button onClick={() => setIsModalOpen(true)} variant="ghost" size="icon">
+            <button onClick={() => setIsModalOpen(true)} className="btn btn-ghost btn-icon">
                 <FilePlusIcon className="w-6 h-6" />
                 <span className="sr-only">New File</span>
-            </Button>
-            <Modal open={isModalOpen} onClickBackdrop={() => setIsModalOpen(false)}>
-                <Modal.Header>
-                    <span>Enter File Name</span>
-                </Modal.Header>
-                <Modal.Body>
-                    <Input onChange={e => setFileName(e.target.value)} placeholder="File Name" />
-                </Modal.Body>
-                <Modal.Actions>
-                    <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
-                    <Button onClick={handleCreateFile}>Create</Button>
-                </Modal.Actions>
-            </Modal>
+            </button>
+            {isModalOpen && (
+                <div className="modal modal-open">
+                    <div className="modal-box">
+                        <div className="modal-header">
+                            <span>Enter File Name</span>
+                        </div>
+                        <div className="modal-body">
+                            <input onChange={e => setFileName(e.target.value)} placeholder="File Name" className="input input-bordered w-full" />
+                        </div>
+                        <div className="modal-action">
+                            <button onClick={() => setIsModalOpen(false)} className="btn">Cancel</button>
+                            <button onClick={handleCreateFile} className="btn btn-primary">Create</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }

@@ -5,7 +5,6 @@ import { useState } from "react"
 import { useTransition } from "react"
 import FullScreenLoader from "@/components/FullScreenLoader"
 import 'tldraw/tldraw.css'
-import { Button } from "daisyui"
 import { useFolderNavStore } from "@/zustand/folderNavStore"
 import { useNavigate } from "react-router-dom"
 
@@ -56,8 +55,8 @@ export default function() {
             <div className="m-2 flex flex-row justify-between items-center w-full">
                 <h1>Editing: {editorID}</h1>
                 <div className="flex flex-row gap-2">
-                    <Button onClick={handleSave} >Save</Button>
-                    <Button onClick={handleClickBack} variant="secondary">Back</Button>
+                    <button onClick={handleSave} className="btn btn-primary">Save</button>
+                    <button onClick={handleClickBack} className="btn btn-secondary">Back</button>
                 </div>
             </div>
             <Tldraw onMount={handleMount} className="prose dark:prose-invert min-w-full">

@@ -3,7 +3,6 @@ import NewFileModal from "@/components/filesys/NewFileModal"
 import NewFolderModal from "@/components/filesys/NewFolderModal"
 import File from "@/components/filesys/File"
 import Folder from "@/components/filesys/Folder"
-import { Button } from "daisyui"
 import { HomeIcon } from "lucide-react"
 import { useTransition } from "react"
 import FullScreenLoader from "@/components/FullScreenLoader"
@@ -78,9 +77,9 @@ export default function () {
         <div className="flex items-center gap-4 dark">
 
           {/* Menu Buttons */}
-          <Button onClick={setDefault} variant="ghost" size="default">
+          <button onClick={setDefault} className="btn btn-ghost">
             <HomeIcon className="w-12 h-12" />
-          </Button>
+          </button>
           <NewFolderModal refreshContents={refreshContents} parentFolderID={currFolderID} />
           <NewFileModal refreshContents={refreshContents} parentFolderID={currFolderID} />
 

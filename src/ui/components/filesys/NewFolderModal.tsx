@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { Button, Modal, Input } from "daisyui";
 import FullScreenLoader from "../FullScreenLoader";
 import { FolderPlusIcon } from "lucide-react";
 
@@ -33,22 +32,26 @@ export default function ({ parentFolderID , refreshContents}: IProps) {
     }
     return (
         <>
-            <Button onClick={() => setIsModalOpen(true)} variant="ghost" size="icon">
+            <button onClick={() => setIsModalOpen(true)} className="btn btn-ghost btn-icon">
                 <FolderPlusIcon className="w-6 h-6" />
                 <span className="sr-only">New Folder</span>
-            </Button>
-            <Modal open={isModalOpen} onClickBackdrop={() => setIsModalOpen(false)}>
-                <Modal.Header>
-                    <span>Enter Folder Name</span>
-                </Modal.Header>
-                <Modal.Body>
-                    <Input onChange={e => setFolderName(e.target.value)} placeholder="Folder Name" />
-                </Modal.Body>
-                <Modal.Actions>
-                    <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
-                    <Button onClick={handleCreateFolder}>Create</Button>
-                </Modal.Actions>
-            </Modal>
+            </button>
+            {isModalOpen && (
+                <div className="modal modal-open">
+                    <div className="modal-box">
+                        <div className="modal-header">
+                            <span>Enter Folder Name</span>
+                        </div>
+                        <div className="modal-body">
+                            <input onChange={e => setFolderName(e.target.value)} placeholder="Folder Name" className="input input-bordered w-full" />
+                        </div>
+                        <div className="modal-action">
+                            <button onClick={() => setIsModalOpen(false)} className="btn">Cancel</button>
+                            <button onClick={handleCreateFolder} className="btn btn-primary">Create</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }

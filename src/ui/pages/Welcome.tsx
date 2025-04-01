@@ -1,5 +1,3 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from 'daisyui';
-import { Button } from 'daisyui';
 import { ArrowRight, FileText, Cloud, Pencil } from 'lucide-react';
 
 export default function WelcomePage() {
@@ -28,26 +26,26 @@ export default function WelcomePage() {
         </div>
 
         {/* Main Card */}
-        <Card className="shadow-lg border-slate-200">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Welcome to NoteTL</CardTitle>
-            <CardDescription>
+        <div className="card shadow-lg border-slate-200">
+          <div className="card-header text-center">
+            <h2 className="card-title text-2xl">Welcome to NoteTL</h2>
+            <p className="card-description">
               Create, organize, and visualize your notes with our tldraw-powered workspace
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Button onClick={handleGetStarted} className="w-full py-6 text-lg" size="lg">
+            </p>
+          </div>
+          <div className="card-body space-y-4">
+            <button onClick={handleGetStarted} className="btn btn-primary w-full py-6 text-lg">
               <span>Get Started</span>
               <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4 border-t pt-4">
+            </button>
+          </div>
+          <div className="card-footer flex flex-col space-y-4 border-t pt-4">
             <div className="flex items-center justify-center w-full text-slate-500 text-sm">
               <Cloud className="h-4 w-4 mr-1" />
               Your data is stored locally
             </div>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
 
         {/* Footer */}
         <div className="text-center text-sm text-slate-500">

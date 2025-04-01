@@ -1,5 +1,5 @@
 import { FileTextIcon } from "lucide-react";
-import { Link } from "daisyui";
+import { Link } from "react-router-dom";
 
 export default function ({ fileName, fileID }: { fileName: string, fileID: number }) {
 

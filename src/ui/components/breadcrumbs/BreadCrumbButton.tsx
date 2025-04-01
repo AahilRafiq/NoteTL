@@ -1,4 +1,3 @@
-import { Button } from "daisyui";
 import { useFolderNavStore } from "@/zustand/folderNavStore";
 
 export default function BreadCrumbItem({ name, id }: { name: string; id: number }) {
@@ -21,6 +20,6 @@ export default function BreadCrumbItem({ name, id }: { name: string; id: number 
     }
 
     return (
-        <Button onClick={handleClick} className="p-2" variant="ghost">{name}</Button>
+        <button onClick={handleClick} className="btn btn-ghost p-2">{name}</button>
     );
 }
