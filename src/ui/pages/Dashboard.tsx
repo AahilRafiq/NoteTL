@@ -25,7 +25,6 @@ interface Contents {
 export default function () {
   const [contents, setContents] = useState<Contents>(null)
   const currFolderID = useFolderNavStore(state => state.currFolderID)
-  const setCurrFolderID = useFolderNavStore(state => state.setCurrFolderID)
   const setDefault = useFolderNavStore(state => state.setDefault)
   const folders = useFolderNavStore(state => state.folders)
   const [isPending, startTransition] = useTransition()
