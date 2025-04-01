@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from 'daisyui';
+import { Button } from 'daisyui';
 import { ArrowRight, FileText, Cloud, Pencil } from 'lucide-react';
 
 export default function WelcomePage() {

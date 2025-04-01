@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useTransition } from "react"
 import FullScreenLoader from "@/components/FullScreenLoader"
 import 'tldraw/tldraw.css'
-import { Button } from "@/components/ui/button"
+import { Button } from "daisyui"
 import { useFolderNavStore } from "@/zustand/folderNavStore"
 import { useNavigate } from "react-router-dom"
 

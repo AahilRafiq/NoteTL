@@ -1,4 +1,4 @@
-import { Button } from "../ui/button";
+import { Button } from "daisyui";
 import { useFolderNavStore } from "@/zustand/folderNavStore";
 
 export default function BreadCrumbItem({ name, id }: { name: string; id: number }) {
