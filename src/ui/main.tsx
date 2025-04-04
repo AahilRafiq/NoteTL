@@ -8,10 +8,8 @@ import { Toaster } from "@/components/ui/sonner"
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HashRouter>
-      <main className='dark text-white bg-gray-950'>
         <App />
         <Toaster/>
-      </main>
     </HashRouter>
   </StrictMode>,
 )

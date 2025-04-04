@@ -42,15 +42,16 @@ export default function ({parentFolderID, refreshContents}:IProps) {
         return <FullScreenLoader />
     }
     return (
+
         <AlertDialog>
             <AlertDialogTrigger asChild>
 
-                <Button variant="ghost" className="w-12 h-12">
-                    <FolderPlusIcon className="w-12 h-12" />
+                <Button variant="ghost" size="lg">
+                    <FolderPlusIcon className="min-w-5 min-h-5"/>
                 </Button>
 
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="dark text-white bg-gray-950">
                 <AlertDialogHeader>
                     <AlertDialogTitle>Enter Folder Name</AlertDialogTitle>
                     <AlertDialogDescription>

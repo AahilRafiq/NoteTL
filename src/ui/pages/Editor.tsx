@@ -8,6 +8,7 @@ import 'tldraw/tldraw.css'
 import { Button } from "@/components/ui/button"
 import { useFolderNavStore } from "@/zustand/folderNavStore"
 import { useNavigate } from "react-router-dom"
+import BreadCrumbsFull from "@/components/breadcrumbs/BreadCrumbsFull"
 
 export default function() {
 
@@ -16,6 +17,7 @@ export default function() {
     const [isPending, startTransition] = useTransition()
     const setCurrFolderID = useFolderNavStore(state => state.setCurrFolderID)
     const navigate = useNavigate()
+    const currEditingFileName = useFolderNavStore(state => state.currEditingFileName)
 
     function handleMount(e: Editor) {
         setEditor(e)
@@ -53,8 +55,8 @@ export default function() {
     return (
         <div className="flex flex-col items-center justify-center h-screen">
             {isPending && <FullScreenLoader/>}
-            <div className="m-2 flex flex-row justify-between items-center w-full">
-                <h1>Editing: {editorID}</h1>
+            <div className="m-2 flex flex-row justify-between items-center w-full font-bold">
+                <BreadCrumbsFull/>{currEditingFileName}
                 <div className="flex flex-row gap-2">
                     <Button onClick={handleSave} >Save</Button>
                     <Button onClick={handleClickBack} variant="secondary">Back</Button>

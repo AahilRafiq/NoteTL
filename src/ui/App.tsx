@@ -24,11 +24,15 @@ export default function App() {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<WelcomePage />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/editor/:editorID" element={<Editor />} />
-    </Routes>
+    <main className="dark">
+      <div className="dark:bg-gray-950 dark:text-white">
+        <Routes>
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/editor/:editorID" element={<Editor />} />
+        </Routes>
+      </div>
+    </main>
   )
 
 }

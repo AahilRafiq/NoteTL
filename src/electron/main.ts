@@ -1,4 +1,4 @@
-import {app,BrowserWindow, ipcMain, dialog} from "electron"
+import {app,BrowserWindow, ipcMain, Menu} from "electron"
 import fs from "node:fs"
 import path from "node:path"
 import { createSchema } from "./db/schema.js"
@@ -139,6 +139,7 @@ app.on("ready", () => {
     if(isDev()) {
         window.loadURL('http://localhost:5173')
     } else {
+        Menu.setApplicationMenu(null)
         window.loadFile(path.join(app.getAppPath(),'/out/ui/index.html'))
     }
 })

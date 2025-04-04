@@ -25,7 +25,7 @@ export default function ({ folderName, folderID, refreshContents }: { folderName
     const [newFolderName, setNewFolderName] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const trimmedFolderName = folderName.length > 10 ? folderName.substring(0, 10) + "..." : folderName;
+    const trimmedFolderName = folderName.length > 15 ? folderName.substring(0, 15) + "..." : folderName;
 
     function handleFolderClick() {
         setCurrFolderID(folderID)
@@ -60,19 +60,19 @@ export default function ({ folderName, folderID, refreshContents }: { folderName
     }
 
     return (
-        <div className="relative w-40 h-15 bg-white dark:bg-gray-900 rounded-md shadow-sm p-4 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-            <button onClick={handleFolderClick} className="flex items-center gap-2">
-                <FolderIcon className="w-5 h-5 text-slate-100" />
+        <div className="relative min-w-50 h-15 bg-white dark:bg-gray-900 rounded-md shadow-sm p-4 flex flex-row gap-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <button onClick={handleFolderClick} className="flex flex-row gap-2 items-center">
+                <FolderIcon className="w-5 h-5 text-green-500" />
                 <span className="font-large">{trimmedFolderName}</span>
             </button>
-            <div className="absolute top-2 right-2">
-                <AlertDialog>
+            <div className="ml-auto">
+                <AlertDialog >
                     <AlertDialogTrigger asChild>
                         <button className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
                             <MoreVerticalIcon className="w-5 h-5" />
                         </button>
                     </AlertDialogTrigger>
-                    <AlertDialogContent>
+                    <AlertDialogContent className="dark text-white bg-gray-950">
                         <AlertDialogHeader>
                             <AlertDialogTitle>Folder Options</AlertDialogTitle>
                         </AlertDialogHeader>
@@ -85,7 +85,7 @@ export default function ({ folderName, folderID, refreshContents }: { folderName
             </div>
             {isRenameModalOpen && (
                 <AlertDialog open={isRenameModalOpen} onOpenChange={setIsRenameModalOpen}>
-                    <AlertDialogContent>
+                    <AlertDialogContent className="dark text-white bg-gray-950">
                         <AlertDialogHeader>
                             <AlertDialogTitle>Rename Folder</AlertDialogTitle>
                             <AlertDialogDescription>

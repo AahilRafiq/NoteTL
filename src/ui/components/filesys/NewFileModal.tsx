@@ -44,12 +44,12 @@ export default function ({ parentFolderID , refreshContents}: IProps) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <FilePlusIcon className="w-6 h-6" />
+                <Button variant="ghost" size="lg">
+                    <FilePlusIcon className="min-w-5 min-h-5" />
                     <span className="sr-only">New File</span>
                 </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="dark text-white bg-gray-950">
                 <AlertDialogHeader>
                     <AlertDialogTitle>Enter File Name</AlertDialogTitle>
                     <AlertDialogDescription>

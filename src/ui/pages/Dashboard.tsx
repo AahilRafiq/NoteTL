@@ -8,13 +8,7 @@ import { HomeIcon } from "lucide-react"
 import { useTransition } from "react"
 import FullScreenLoader from "@/components/FullScreenLoader"
 import { useFolderNavStore } from "@/zustand/folderNavStore"
-import BreadCrumbButton from "@/components/breadcrumbs/BreadCrumbButton"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+import BreadCrumbsFull from "@/components/breadcrumbs/BreadCrumbsFull"
 
 
 interface Contents {
@@ -26,7 +20,6 @@ export default function () {
   const [contents, setContents] = useState<Contents>(null)
   const currFolderID = useFolderNavStore(state => state.currFolderID)
   const setDefault = useFolderNavStore(state => state.setDefault)
-  const folders = useFolderNavStore(state => state.folders)
   const [isPending, startTransition] = useTransition()
 
 
@@ -58,27 +51,12 @@ export default function () {
   return (
     <div className="flex flex-col h-screen">
       <header className="p-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Breadcrumb>
-            <BreadcrumbList>
-              {folders.map(folder => {
-                return (
-                  <>
-                    <BreadcrumbItem>
-                      <BreadCrumbButton key={folder.id} name={folder.name} id={folder.id} />
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                  </>
-                )
-              })}
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-        <div className="flex items-center gap-4 dark">
+        <BreadCrumbsFull/>
+        <div className="flex items-center gap-4">
 
           {/* Menu Buttons */}
-          <Button onClick={setDefault} variant="ghost" size="default">
-            <HomeIcon className="w-12 h-12" />
+          <Button onClick={setDefault} variant="ghost" size="lg">
+            <HomeIcon className="min-w-5 min-h-5"/>
           </Button>
           <NewFolderModal refreshContents={refreshContents} parentFolderID={currFolderID} />
           <NewFileModal refreshContents={refreshContents} parentFolderID={currFolderID} />
