@@ -15,16 +15,16 @@ export default function WelcomePage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen  p-4">
       <div className="max-w-md w-full space-y-8">
         {/* Logo and Header */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center">
-            <Pencil className="h-10 w-10 text-indigo-600" />
-            <FileText className="h-12 w-12 text-indigo-500 ml-1" />
+            <Pencil className="h-10 w-10 text-green-400" />
+            <FileText className="h-12 w-12 text-green-400 ml-1" />
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900">NoteTL</h1>
-          <p className="text-lg text-slate-600">A tldraw based notes and organizer</p>
+          <h1 className="text-4xl font-bold tracking-tight">NoteTL</h1>
+          <p className="text-lg text-slate-400">A tldraw based notes and organizer</p>
         </div>
 
         {/* Main Card */}
